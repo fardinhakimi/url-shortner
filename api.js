@@ -5,8 +5,6 @@ const { check, validationResult } = require('express-validator');
 const Url = require('./models/url')
 const { isEmpty } = require('./functions') 
 
-require('dotenv').config()
-
 router.get('/', async function (req, res) {
     try {
 

@@ -4,6 +4,8 @@ const bodyParser = require('body-parser')
 
 app = express();
 
+require('dotenv').config()
+
 // connect to mongo_db
 require('./db')();
 
