@@ -1,3 +1,5 @@
+
+
 {
   "name": "url-shortner",
   "version": "1.0.0",
@@ -5,11 +7,12 @@
   "main": "index.js",
   "scripts": {
     "start": "node index",
-    "test": "jest --watch *.js"
+    "test": "mocha --require @babel/register tests/*.js"
   },
   "author": "fardin hakimi",
   "license": "ISC",
   "dependencies": {
+    "@babel/core": "^7.5.4",
     "body-parser": "^1.19.0",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
@@ -19,6 +22,10 @@
     "shortid": "^2.2.14"
   },
   "devDependencies": {
-    "jest": "^24.8.0"
+    "@babel/register": "^7.4.4",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^6.1.4",
+    "sinon": "^7.3.2"
   }
 }
