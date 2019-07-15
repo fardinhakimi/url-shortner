@@ -3,7 +3,7 @@ const shortid = require('shortid')
 const HttpStatus = require('http-status-codes');
 const { check, validationResult } = require('express-validator');
 const Url = require('./models/url')
-const { isEmpty } = require('./functions') 
+const { isEmpty } = require('./functions')
 
 router.get('/', async function (req, res) {
     try {
@@ -61,11 +61,10 @@ router.get('/:short_url', async (req, res) => {
 
         url = await Url.findOne({ 'short_url': req.params.short_url })
 
-        if (url) {
-            res.status(HttpStatus.MOVED_TEMPORARILY).redirect(url.long_url)
-        } else {
-            res.status(HttpStatus.BAD_REQUEST).send({ 'error': 'url not found' })
+        if (isEmpty(url)) {
+            res.status(HttpStatus.BAD_REQUEST).send({ 'info': 'url not found' })
         }
+        res.status(HttpStatus.MOVED_TEMPORARILY).redirect(url.long_url)
 
     } catch (err) {
         res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err)
