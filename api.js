@@ -33,10 +33,7 @@ router.post('/shorten-url',
                             'short_url': shortid.generate()
                         }
                     )
-
-                    if(url.validate()){
-                        url = await url.save()
-                    }
+                    url = await url.save()
                 }
 
             } catch (err) {
