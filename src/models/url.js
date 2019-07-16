@@ -29,7 +29,7 @@ UrlSchema.methods.validate = function () {
       resolve(true)
     }
 
-    reject(new Error("Invalid long_url."))
+    reject(new Error("Invalid long_url provided."))
 
   })
 }

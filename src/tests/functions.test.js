@@ -36,7 +36,6 @@ describe('isEmpty function', () => {
     })
 })
 
-
 describe('isValidUrl', () => {
 
     it('should return false when invalid url is given', () => {

@@ -8,7 +8,6 @@ const UrlController = require('./controller/url')
 
 router.get('/', UrlController.getAllUrls)
 router.get('/:short_url', UrlController.getUrl)
-
 router.post('/shorten-url',
     [
         check('long_url').isURL().withMessage('must contain a valid url')
