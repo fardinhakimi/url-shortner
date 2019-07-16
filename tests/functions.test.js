@@ -1,9 +1,10 @@
 
 
-const { isEmpty } = require('../functions')
+const { isEmpty, isValidUrl } = require('../functions')
 const { expect } = require('chai')
+const should   = require('chai').should()
 
-describe('Testing isEmpty function', () => {
+describe('isEmpty function', () => {
 
     it('tests that true is not empty', () => {
 
@@ -32,6 +33,18 @@ describe('Testing isEmpty function', () => {
 
     it('tests that "lazy dog" is not empty', () => {
         expect(isEmpty('lazy dog')).to.eql(false)
+    })
+})
+
+
+describe('isValidUrl', () => {
+
+    it('should return false when invalid url is given', () => {
+        isValidUrl('invalid_url').should.be.false
+    })
+
+    it('should return true when passed with a valid url', () => {
+        isValidUrl('https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/test').should.be.true
     })
 })
 

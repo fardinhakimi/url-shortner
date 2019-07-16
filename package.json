@@ -1,12 +1,12 @@
-
-
 {
   "name": "url-shortner",
   "version": "1.0.0",
   "description": "a url shortner written in nodejs",
   "main": "index.js",
   "scripts": {
-    "start": "node index",
+    "start": "nodemon --exec babel-node index",
+    "build": "babel src --out-dir dist",
+    "serve": "node dist/index.js",
     "test": "mocha --require @babel/register tests/*.js"
   },
   "author": "fardin hakimi",
@@ -22,10 +22,14 @@
     "shortid": "^2.2.14"
   },
   "devDependencies": {
+    "@babel/cli": "^7.5.0",
+    "@babel/node": "^7.5.0",
+    "@babel/preset-env": "^7.5.4",
     "@babel/register": "^7.4.4",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "mocha": "^6.1.4",
+    "nodemon": "^1.19.1",
     "sinon": "^7.3.2"
   }
 }

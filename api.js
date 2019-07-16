@@ -4,18 +4,10 @@ const HttpStatus = require('http-status-codes');
 const { check, validationResult } = require('express-validator');
 const Url = require('./models/url')
 const { isEmpty } = require('./functions')
+const UrlController = require('./controller/url')
 
-router.get('/', async function (req, res) {
-    try {
-
-        urls = await Url.find()
-
-        res.status(HttpStatus.OK).send({ 'urls': urls })
-
-    } catch (err) {
-        res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({ err })
-    }
-})
+router.get('/', UrlController.getAllUrls)
+router.get('/:short_url', UrlController.getUrl)
 
 router.post('/shorten-url',
     [
@@ -42,7 +34,9 @@ router.post('/shorten-url',
                         }
                     )
 
-                    url = await url.save()
+                    if(url.validate()){
+                        url = await url.save()
+                    }
                 }
 
             } catch (err) {
@@ -54,21 +48,5 @@ router.post('/shorten-url',
 
         res.status(HttpStatus.UNPROCESSABLE_ENTITY).send({ errors: errors.array() })
     })
-
-router.get('/:short_url', async (req, res) => {
-
-    try {
-
-        url = await Url.findOne({ 'short_url': req.params.short_url })
-
-        if (isEmpty(url)) {
-            res.status(HttpStatus.BAD_REQUEST).send({ 'info': 'url not found' })
-        }
-        res.status(HttpStatus.MOVED_TEMPORARILY).redirect(url.long_url)
-
-    } catch (err) {
-        res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err)
-    }
-})
 
 module.exports = router
