@@ -4,7 +4,7 @@
   "description": "a url shortner written in nodejs",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node index",
+    "start": "nodemon --exec babel-node src/index.js",
     "build": "babel src --out-dir dist",
     "serve": "node dist/index.js",
     "test": "mocha --require @babel/register src/tests/*.js"
