@@ -20,8 +20,7 @@ const isEmpty = (value) => {
  * @returns boolean
  */
 const isValidUrl = (url) => {
-    const regex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/
-    const pattern = new RegExp(regex)
+    const pattern = new RegExp(/(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/)
     return pattern.test(url)
 
 }
