@@ -4,7 +4,7 @@
  * @param {string} value
  * @returns boolean 
  */
-const isEmpty = (value) => {
+function isEmpty(value) {
     return (
         value === null
         || typeof value === 'undefined'
@@ -19,7 +19,7 @@ const isEmpty = (value) => {
  * @param {string} url 
  * @returns boolean
  */
-const isValidUrl = (url) => {
+function isValidUrl(url){
     const pattern = new RegExp(/(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/)
     return pattern.test(url)
 
