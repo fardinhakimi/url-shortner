@@ -47,7 +47,7 @@ describe("Url Schema", () => {
             short_url: "https://funrang.com/shortid"
         })
 
-        return url.validate().then((value) => {
+        return url.validateObject().then((value) => {
             expect(value).to.be.true
         })
     })
@@ -60,7 +60,7 @@ describe("Url Schema", () => {
             short_url: "https://funrang.com/shortid"
         })
 
-        return url.validate().catch((error) => {
+        return url.validateObject().catch((error) => {
             error.should.not.be.null
         })
     })

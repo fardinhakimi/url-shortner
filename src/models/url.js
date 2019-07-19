@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const { isValidUrl } = require('../functions')
+const { isValidUrl } = require('../functions').default
 
 const UrlSchema = new mongoose.Schema({
   long_url: {
@@ -21,7 +21,7 @@ UrlSchema.methods.getCombinedUrl = function (callback) {
   callback(null, this.long_url + ':' + this.short_url)
 }
 
-UrlSchema.methods.validate = function () {
+UrlSchema.methods.validateObject = function () {
 
   return new Promise((resolve, reject) => {
 
