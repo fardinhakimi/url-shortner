@@ -19,7 +19,7 @@ export default new Vuex.Store({
       }
     }
   },
-
+  
   getters: {
     user(state) {
       return state.user
@@ -36,6 +36,7 @@ export default new Vuex.Store({
     },
 
   },
+
   actions: {
 
     async updateUser({ commit }, { url, user }) {
@@ -46,7 +47,7 @@ export default new Vuex.Store({
 
           const response = await api.postResource(url, user)
           commit(UPDATE_USER, { user: response.data })
-          resolve(true)
+          resolve(response)
   
         }catch(err){
           reject(err)

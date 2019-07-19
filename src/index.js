@@ -1,25 +1,29 @@
 
-const express = require('express');
-const bodyParser = require('body-parser')
-const app = express()
-const cors = require('cors')
+const express = require('express')
 
 require('dotenv').config()
 
-// connect to mongo_db
-require('./db')();
+const bodyParser = require('body-parser')
+const app  = express()
+const cors = require('cors')
+const passport      = require('passport')
 
-const PORT = process.env.PORT || 8080
+// connect to mongo_db
+require('./db')()
+
+// init passport strategies
+require('./passport')(passport)
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cors())
 
-app.get('/', (req, res) => {
-    res.send("POST to /api/shorten-url {'long_url': long_url_value } to shorten urls!")
-})
+app.use('/',require('./web'))
 
 app.use('/api', require('./api'))
+
+
+const PORT = process.env.PORT || 8080
 
 app.listen(PORT, (err)=> {
     if(!err){

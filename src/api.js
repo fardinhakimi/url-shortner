@@ -1,10 +1,10 @@
 const router = require('express').Router()
 const shortid = require('shortid')
-const HttpStatus = require('http-status-codes');
-const { check, validationResult } = require('express-validator');
+const HttpStatus = require('http-status-codes')
+const { check, validationResult } = require('express-validator')
 const Url = require('./models/url')
 const { isEmpty } = require('./functions')
-const UrlController = require('./controller/url')
+const UrlController = require('./controllers/url')
 
 router.get('/', UrlController.getAllUrls)
 router.get('/:short_url', UrlController.getUrl)
