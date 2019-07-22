@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const { isValidUrl } = require('../functions').default
+const { isValidUrl } = require('../functions')
 
 const UrlSchema = new mongoose.Schema({
   long_url: {

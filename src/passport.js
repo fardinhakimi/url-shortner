@@ -1,9 +1,10 @@
 const LocalStrategy = require('passport-local').Strategy
 const JWTStrategy = require('passport-jwt').Strategy
+const httpStatus = require('http-status-codes')
 const User = require('./models/user')
-const { isEmpty } = require('./functions')
 const bcrypt = require('bcrypt')
-const secretKey = process.env.SECRECT_KEY
+const secretKey = process.env.SECRET_KEY
+const { ApiError } = require('./errors')
 
 module.exports = (passport) => {
 
@@ -16,24 +17,42 @@ module.exports = (passport) => {
 
             try {
 
-                const user = await User.findOne({ username: email })
+                const user = await User.findOne({ email: email })
 
-                if (!isEmpty(user)) {
+                if (user) {
 
                     const passwordsMatch = await bcrypt.compare(password, user.password)
 
                     if (passwordsMatch) {
                         return done(null, user)
+                    } else {
+                        throw new ApiError('Wrong password', httpStatus.UNAUTHORIZED)
                     }
-                    return done(null, false, { message: 'This email is not registered' })
+
+                } else {
+
+                    throw new ApiError('This email is not registered', httpStatus.NOT_FOUND)
                 }
 
-                return next('this user does not exist')
-
             } catch (error) {
-                return next(error)
+
+                if (!error instanceof ApiError) {
+
+                    error = {
+                        getMessage() {
+                            return error
+                        },
+                        getStatusCode() {
+                            return httpStatus.BAD_REQUEST
+                        }
+                    }
+                }
+
+                return done(error)
             }
         }))
+
+    // using jwt strategry // basically a middleware
 
     passport.use(new JWTStrategy({ jwtFromRequest: req => req.cookies.jwt, secretOrKey: secretKey },
 

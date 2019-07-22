@@ -3,11 +3,7 @@ const Url = require('../models/url')
 const { isEmpty } = require('../functions')
 
 class UrlController {
-
-    constructor() {
-
-    }
-
+    
     static async getAllUrls(req, res) {
 
         try {

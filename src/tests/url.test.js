@@ -1,9 +1,8 @@
-
+const chai = require('chai')
 const { expect } = require('chai')
-const chai = require('chai').should()
-
 const Url = require('../models/url')
 
+chai.should()
 
 describe("Url Schema", () => {
 

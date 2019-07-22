@@ -1,32 +1,44 @@
 
 const express = require('express')
+const app = express()
+const bodyParser = require('body-parser')
+const cors = require('cors')
+const passport = require('passport')
+require("regenerator-runtime/runtime")
+
+// Environment variables
 
 require('dotenv').config()
 
-const bodyParser = require('body-parser')
-const app  = express()
-const cors = require('cors')
-const passport      = require('passport')
+// Config 
 
-// connect to mongo_db
 require('./db')()
-
-// init passport strategies
 require('./passport')(passport)
+
+// Middleware 
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cors())
 
-app.use('/',require('./web'))
 
-app.use('/api', require('./api'))
+// Routing 
 
+app.use('/', require('./routes/web'))
+app.use('/account/', require('./routes/account'))
+app.use('/api/', require('./routes/api'))
+
+
+// Server 
 
 const PORT = process.env.PORT || 8080
 
-app.listen(PORT, (err)=> {
-    if(!err){
-    console.log(`App running on port:${PORT}`);
+app.listen(PORT, (err) => {
+    if (err) {
+        console.log(err)
+    } else {
+        console.log(`App running on port:${PORT}`);
     }
 })
+
+module.exports = app
