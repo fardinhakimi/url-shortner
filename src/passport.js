@@ -9,7 +9,7 @@ const secretKey = process.env.SECRET_KEY
 const { ApiError } = require('./errors')
 
 
-const BASE_URL = process.env.DOMAIN_NAME || '127.0.0.1:8080'
+const BASE_URL = process.env.DOMAIN_NAME
 
 module.exports = (passport) => {
 
@@ -79,7 +79,7 @@ module.exports = (passport) => {
     passport.use(new googleStrategy({
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: `${BASE_URL}/auth/google/callback `
+        callbackURL: BASE_URL+'/auth/google/callback'
     },
 
         async (accessToken, refreshToken, profile, done) => {
@@ -124,7 +124,7 @@ module.exports = (passport) => {
     passport.use(new gitHubStrategy({
         clientID: process.env.GITHUB_CLIENT_ID,
         clientSecret: process.env.GITHUB_SECRET_KEY,
-        callbackURL: `${BASE_URL}/auth/github/callback `
+        callbackURL: BASE_URL+'/auth/github/callback'
     },
         async (accessToken, refreshToken, profile, done) => {
 

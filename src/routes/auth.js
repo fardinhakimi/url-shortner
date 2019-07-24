@@ -102,7 +102,7 @@ const providerLogin = (req, res, providerName) => {
         (error, user) => {
 
             if (error || !user) {
-                return res.redirect(`${FRONT_END_URL}?login_status=FAILED_WITH_ERROR`)
+                return res.redirect(FRONT_END_URL + '/accounts/login/?login_status=FAILED_WITH_ERROR')
             }
 
             const payload = {
@@ -113,11 +113,11 @@ const providerLogin = (req, res, providerName) => {
             req.login(payload, { session: false }, (error) => {
 
                 if (error) {
-                    return res.redirect(`${FRONT_END_URL}/accounts/login?login_status=FAILED_TOKEN_SIGNING`)
+                    return res.redirect(FRONT_END_URL+ '/accounts/login?login_status=FAILED_TOKEN_SIGNING')
                 }
 
                 const token = jwt.sign(JSON.stringify(payload), secretKey)
-                return res.redirect(`${FRONT_END_URL}/accounts/login?login_status=SUCCEEDED&&token=${token}`)
+                return res.redirect(FRONT_END_URL+'/accounts/login?login_status=SUCCEEDED&&token=${token}')
             })
         },
     )(req, res)
