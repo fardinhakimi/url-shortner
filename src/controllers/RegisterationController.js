@@ -3,6 +3,7 @@ const { validationResult } = require('express-validator')
 const httpStatus = require('http-status-codes')
 const bcrypt = require('bcrypt')
 const User = require('../models/user')
+const { unprocessableEntity , internalServerError } = require('../functions')
 
 class RegistrationController {
 
@@ -13,7 +14,7 @@ class RegistrationController {
             const errors = validationResult(req)
 
             if (!errors.isEmpty()) {
-                return res.status(httpStatus.UNPROCESSABLE_ENTITY).json(errors)
+                return unprocessableEntity(res, errors.errors)
             }
 
             const { email, password, name } = req.body
@@ -21,7 +22,7 @@ class RegistrationController {
             let user = await User.findOne({email: email})
 
             if(user){
-                return res.status(httpStatus.BAD_REQUEST).json({error: "this user already exists"})
+                return res.status(httpStatus.BAD_REQUEST).json({errors:["this user already exists"]})
             }
 
             const passwordHash = await bcrypt.hash(password, 10)
@@ -34,12 +35,10 @@ class RegistrationController {
 
             user = await user.save()
             
-            return res.status(httpStatus.CREATED).send({
-                user
-            })
+            return res.status(httpStatus.CREATED).send({ user })
 
         } catch (error) {
-            return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error)
+            return internalServerError(res, [error])
         }
     }
 }

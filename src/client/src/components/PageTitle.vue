@@ -2,7 +2,7 @@
 
 <div class="page-title"> 
     <span>
-        <h4>{{msg}}</h4>
+        <h3>{{msg}}</h3>
     </span>
 </div>
  
@@ -20,6 +20,6 @@ export default {
 <style>
 
 .page-title {
-    padding-bottom: 10px;
+    padding-bottom: 20px;
 }
 </style>

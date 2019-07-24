@@ -1,6 +1,6 @@
 const HttpStatus = require('http-status-codes')
 const Url = require('../models/url')
-const { isEmpty } = require('../functions')
+const { isEmpty, internalServerError } = require('../functions')
 
 class UrlController {
     
@@ -8,12 +8,12 @@ class UrlController {
 
         try {
 
-            urls = await Url.find()
-
-            res.status(HttpStatus.OK).send({ 'urls': urls })
+            const urls = await Url.find()
+            
+            return res.status(HttpStatus.OK).send({ 'urls': urls })
 
         } catch (err) {
-            res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({ err })
+            return internalServerError(res, [err])
         }
     }
     
@@ -21,15 +21,15 @@ class UrlController {
 
         try {
 
-            url = await Url.findOne({ 'short_url': req.params.short_url })
+            const url = await Url.findOne({ 'short_url': req.params.short_url })
 
             if (isEmpty(url)) {
-                return res.status(HttpStatus.BAD_REQUEST).send({ 'info': 'url not found' })
+                return res.status(HttpStatus.BAD_REQUEST).send({ 'errors': ['url not found'] })
             }
             return res.status(HttpStatus.MOVED_TEMPORARILY).redirect(url.long_url)
 
         } catch (err) {
-            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err)
+            return internalServerError(res, [err])
         }
     }
 }

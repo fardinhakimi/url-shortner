@@ -2,16 +2,16 @@
 import axios from 'axios'
 import store from './store'
 
-export const REGISTER_USER_URL = `accounts/register`
-export const LOGIN_USER_URL = `accounts/login`
-export const LOGOUT_USER_URL = `accounts/logout`
-export const REFRESH_TOKEN_URL = `accounts/refresh-token`
-export const USERNAME_UNIQUE_URL = `accounts/username-unique`
+export const LOGIN_USER_URL      = `auth/login`
+export const REGISTER_USER_URL   = `account/register`
+export const LOGOUT_USER_URL     = `account/logout`
+export const REFRESH_TOKEN_URL   = `account/refresh-token`
+export const USERNAME_UNIQUE_URL = `account/username-unique`
 
 const user = store.getters.user
 
 const api = axios.create({
-    baseURL: "http://127.0.0.1:8080/api/v1/",
+    baseURL: "http://127.0.0.1:8080/",
     headers: {
         'Content-Type': 'application/json',
         'authorization': `JWT`
@@ -33,6 +33,7 @@ export default {
     },
 
     postResource(url, body) {
+        
         return api({
             method: 'post',
             url: url,

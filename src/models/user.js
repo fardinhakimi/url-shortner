@@ -9,14 +9,24 @@ const userSchema = new Schema({
     dropDups: true,
     required: true,
   },
+  googleId: {
+    type: String
+  },
+  githubId: {
+    type: String
+  },
+  googleProfileJson: {
+    type: JSON
+  },
+  githubProfileJson: {
+    type: JSON
+  },
   name: {
     type: String,
-    required: true,
     minlength: 3
   },
   password: {
     type: String,
-    required: true,
     minlength: 8
   }
 })

@@ -16,7 +16,11 @@
       <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
           <li v-for="item in navBarItem" class="nav-item">
-            <router-link :to="item.link" class="nav-link" :class="item.class">{{ item.name }}</router-link>
+            <router-link v-if="item.type === 'href' && isUserGuest" :to="item.link" :class="item.class">{{ item.name }}</router-link>
+            <button v-else-if="item.type === 'button' && !isUserGuest" 
+                    type="button" 
+                    class="btn btn-primary" 
+                    v-on:click="logOut">{{item.name}}</button>
           </li>
         </ul>
       </div>
@@ -45,9 +49,10 @@ import {
   PROFILE_ROUTE
 } from "../router.js";
 
-import { LOGOUT_USER_URL, LOGIN_USER_URL } from "../api";
-
+import { LOGOUT_USER_URL} from "../api"
 import { mapGetters, mapActions } from "vuex";
+import { from } from 'zen-observable';
+import { constants } from 'crypto';
 
 export default {
   data() {
@@ -55,30 +60,38 @@ export default {
       brandName: 'Funrang url-shortning',
       navBarItem: [
         {
-          /*
-          isGuest: this.isUserLoggedIn,
           name: "Login",
           link: LOGIN_ROUTE,
-          class: "pull-right" */
-        }
+          type: 'href',
+          class: "pull-right btn btn-primary"
+        },
+
+        {
+          name: "Logout",
+          type: 'button',
+          class: "pull-right"
+        },
       ]
-    };
+    }
+  },
+
+  computed: {
+    ...mapGetters(['user', 'isUserGuest'])
   },
 
   methods: {
-    ...mapGetters["isUserLoggedIn"],
-    ...mapActions["updateUser"],
+    ...mapActions(['logOutUser']),
+    async logOut(){
+      try{
 
-    logOut() {
-      this.updateUser(LOGOUT_USER_URL, { isGuest: true })
-        .then(data => {
-          this.$router.push(LOGIN_USER_URL);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+        await this.logOutUser()
+        this.$router.push(LOGIN_ROUTE)
+
+      }catch(error){
+        console.log(error)
+      }
     }
   },
   name: "NavBar"
-};
+}
 </script>
