@@ -6,6 +6,8 @@ const passport = require('passport')
 const secretKey = process.env.SECRET_KEY;
 const jwt = require('jsonwebtoken');
 
+const FRONT_END_URL = process.env.FRONT_END_URL || process.env.DOMAIN_NAME
+
 router.get('/', (req, res) => {
 
     return res.status(httpStatus.OK).json([
@@ -79,7 +81,7 @@ router.get('/google', passport.authenticate('google', {
 }))
 
 router.get('/google/callback', (req, res) => {
-    return providerLogin(req,res,'google')
+    return providerLogin(req, res, 'google')
 });
 
 // GITHUB STRATEGY
@@ -89,7 +91,7 @@ router.get('/github', passport.authenticate('github', {
 }))
 
 router.get('/github/callback', (req, res) => {
-    return providerLogin(req,res,'github')
+    return providerLogin(req, res, 'github')
 });
 
 const providerLogin = (req, res, providerName) => {
@@ -100,7 +102,7 @@ const providerLogin = (req, res, providerName) => {
         (error, user) => {
 
             if (error || !user) {
-                return res.redirect(`127.0.0.1:8082?login_status=FAILED_WITH_ERROR`)
+                return res.redirect(`${FRONT_END_URL}?login_status=FAILED_WITH_ERROR`)
             }
 
             const payload = {
@@ -111,11 +113,11 @@ const providerLogin = (req, res, providerName) => {
             req.login(payload, { session: false }, (error) => {
 
                 if (error) {
-                    return res.redirect(`http://127.0.0.1:8082/accounts/login?login_status=FAILED_TOKEN_SIGNING`)
+                    return res.redirect(`${FRONT_END_URL}/accounts/login?login_status=FAILED_TOKEN_SIGNING`)
                 }
 
                 const token = jwt.sign(JSON.stringify(payload), secretKey)
-                return res.redirect(`http://127.0.0.1:8082/accounts/login?login_status=SUCCEEDED&&token=${token}`)
+                return res.redirect(`${FRONT_END_URL}/accounts/login?login_status=SUCCEEDED&&token=${token}`)
             })
         },
     )(req, res)
