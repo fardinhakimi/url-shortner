@@ -51,8 +51,6 @@ import {
 
 import { LOGOUT_USER_URL} from "../api"
 import { mapGetters, mapActions } from "vuex";
-import { from } from 'zen-observable';
-import { constants } from 'crypto';
 
 export default {
   data() {
